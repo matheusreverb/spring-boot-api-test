@@ -1,4 +1,4 @@
-package com.example.meu_projeto_web.domain;
+package com.example.meu_projeto_web.domain.exceptions;
 
 public class ValidationException extends RuntimeException {
   private final String field;

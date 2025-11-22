@@ -1,5 +1,7 @@
 package com.example.meu_projeto_web.infrastructure.controllers;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,14 +21,10 @@ public class UserController {
   }
 
   @PostMapping
-  public String createUser(@RequestBody CreateUserRequest request) {
-    userService.createUser(
-        request.getName(),
-        request.getEmail(),
-        request.getPassword(),
-        request.getBirthDate(),
-        request.getPhone());
+  public ResponseEntity<Void> postUser(@RequestBody CreateUserRequest request) {
 
-    return "User created successfully";
+    userService.createUser(request);
+
+    return ResponseEntity.status(HttpStatus.CREATED).build();
   }
 }

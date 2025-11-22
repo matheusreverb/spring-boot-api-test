@@ -4,4 +4,8 @@ import com.example.meu_projeto_web.domain.entities.User;
 
 public interface UserRepository {
   void create(User user);
+
+  Boolean emailExists(String email);
+
+  Boolean phoneExists(String phone);
 }

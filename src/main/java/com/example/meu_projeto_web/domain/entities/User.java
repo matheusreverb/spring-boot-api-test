@@ -2,20 +2,24 @@ package com.example.meu_projeto_web.domain.entities;
 
 import java.time.LocalDate;
 import java.time.Period;
-import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
-import com.example.meu_projeto_web.domain.ValidationException;
 import com.example.meu_projeto_web.domain.enums.UserValidationParams;
+import com.example.meu_projeto_web.domain.exceptions.ValidationException;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Setter
+@Getter
 public class User {
   private String name;
   private String email;
   private String password;
-  private String birthDate;
+  private LocalDate birthDate;
   private String phone;
 
-  public User(String name, String email, String password, String birthDate, String phone) {
+  public User(String name, String email, String password, LocalDate birthDate, String phone) {
     validateName(name);
     validateEmail(email);
     validatePassword(password);
@@ -76,26 +80,21 @@ public class User {
     }
   }
 
-  private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ISO_LOCAL_DATE;
-
-  private void validateBirthDate(String birthDate) {
-    rejectIfNull(birthDate, UserValidationParams.BIRTH_DATE, "O campo de data de nascimento é obrigatório");
-    rejectIfTooShort(birthDate, UserValidationParams.BIRTH_DATE, 6, "Data de nascimento inválida");
+  private void validateBirthDate(LocalDate birthDate) {
     try {
-      LocalDate birthDateFormatted = LocalDate.parse(birthDate, FORMATTER);
       LocalDate today = LocalDate.now();
 
-      if (birthDateFormatted.isAfter((LocalDate.now()))) {
+      if (birthDate.isAfter((LocalDate.now()))) {
         throw new ValidationException(UserValidationParams.BIRTH_DATE.getField(),
             "Data de nascimento não pode ser no futuro");
       }
 
-      if (birthDateFormatted.isBefore((LocalDate.of(1900, 1, 1)))) {
+      if (birthDate.isBefore((LocalDate.of(1900, 1, 1)))) {
         throw new ValidationException(UserValidationParams.BIRTH_DATE.getField(),
             "Data de nascimento não pode ser antes de 1900");
       }
 
-      int age = Period.between(birthDateFormatted, today).getYears();
+      int age = Period.between(birthDate, today).getYears();
       if (age < 18) {
         throw new ValidationException(
             UserValidationParams.BIRTH_DATE.getField(),
