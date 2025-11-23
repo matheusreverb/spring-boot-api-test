@@ -5,7 +5,8 @@ public enum UserValidationParams {
   EMAIL("email"),
   PASSWORD("password"),
   BIRTH_DATE("birthDate"),
-  PHONE("phone");
+  PHONE("phone"),
+  ROOT("root");
 
   private final String field;
 

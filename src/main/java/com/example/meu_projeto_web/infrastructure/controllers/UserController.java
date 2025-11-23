@@ -20,7 +20,7 @@ public class UserController {
     this.userService = userService;
   }
 
-  @PostMapping
+  @PostMapping()
   public ResponseEntity<Void> postUser(@RequestBody CreateUserRequest request) {
 
     userService.createUser(request);

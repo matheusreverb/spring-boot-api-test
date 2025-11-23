@@ -2,6 +2,7 @@ package com.example.meu_projeto_web.application.services;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -52,6 +53,10 @@ public class UserService {
 
   // public void updateUser(...) { ... }
   // public void deleteUser(...) { ... }
+
+  public Optional<User> findUserByEmail(String email) {
+    return repository.findByEmail(email);
+  }
 
   private String extractField(String message) {
     Pattern pattern = Pattern.compile("Chave \\((.*?)\\)=");
